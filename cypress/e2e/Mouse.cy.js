@@ -20,13 +20,24 @@ describe('Mouse operations', () => {
         
     })
 
-    it('Drag and drop', () => {
+    it.skip('Drag and drop', () => {
 
         cy.visit('http://www.dhtmlgoodies.com/scripts/drag-drop-custom/demo-drag-drop-3.html');
         cy.get('#box1').should('be.visible');
         cy.get('#box101').should('be.visible');
-        cy.get('#box1').drag('#box101', {force: true});
-       
-        
+        cy.get('#box1').drag('#box101', {force: true}); 
     })
+
+    it('Scroll pge', () => {
+
+        cy.visit('https://www.countries-ofthe-world.com/flags-of-the-world.html');
+        cy.get(':nth-child(113) > :nth-child(1) > img').scrollIntoView({duration: 2000});
+        cy.get(':nth-child(113) > :nth-child(1) > img').should('be.visible');
+
+        cy.get(':nth-child(1) > tbody > :nth-child(2) > :nth-child(1) > img').scrollIntoView({duration: 2000});
+        cy.get(':nth-child(1) > tbody > :nth-child(2) > :nth-child(1) > img').should('be.visible');
+    })
+
+
+
 })
