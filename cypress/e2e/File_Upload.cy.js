@@ -1,42 +1,58 @@
 import '@4tw/cypress-drag-drop'
+import 'cypress-file-upload';
 
-describe('Mouse operations', () => {
+describe('File upload', () => {
     
-    it.skip('Mouse Hover', () => {
+    it.skip('Single file', () => {
 
-        cy.visit('https://demo.opencart.com/');
-        cy.get(':nth-child(1) > .dropdown-menu > .dropdown-inner > .list-unstyled > :nth-child(2) > .nav-link').should('not.be.visible');
-        cy.get('.nav > :nth-child(1) > .dropdown-toggle').trigger('mouseover').click();
-        cy.get(':nth-child(1) > .dropdown-menu > .dropdown-inner > .list-unstyled > :nth-child(2) > .nav-link').should('be.visible');
-        
+        cy.visit('https://the-internet.herokuapp.com/upload');
+        cy.get('#file-upload').attachFile('header.png');
+        cy.get('#file-submit').click();
+        cy.wait(2000);
+        cy.get('h3').should('contain', 'File Uploaded!');
+         
     })
 
-    it.skip('Right click', () => {
+    it.skip('File rename', () => {
 
-        cy.visit('https://swisnl.github.io/jQuery-contextMenu/demo.html');
-        cy.get('.context-menu-one').rightclick();
-        cy.get('.context-menu-icon-copy').should('be.visible');
+        cy.visit('https://the-internet.herokuapp.com/upload');
+        cy.get('#file-upload').attachFile({filePath: 'header.png', fileName: 'my.pdf'});
+        cy.get('#file-submit').click();
+        cy.wait(2000);
+        cy.get('h3').should('contain', 'File Uploaded!');
+         
+    })
+
+    it.skip('Drag and Drop', () => {
+
+        cy.visit('https://the-internet.herokuapp.com/upload');
+        cy.get('#drag-drop-upload').attachFile('header.png', { subjectType: 'drag-n-drop' });
+        cy.get('#drag-drop-upload > .dz-preview > .dz-details > .dz-filename > span').should('contain', 'header.png');
+        cy.get('#file-submit').click();
+        cy.wait(2000);
+        cy.get('h1').should('contain', 'Internal Server Error');
+    })
+
+    it.skip('Multiple files', () => {
+
+        cy.visit('https://davidwalsh.name/demo/multiple-file-upload.php');
+        cy.get('#filesToUpload').attachFile(['header.png', 'header1.png']);
+        cy.wait(2000);
+        cy.get(':nth-child(6) > strong').should('contain', 'Files You Selected');     
+    })
+
+    it('Shadow Dom', () => {
+
+        cy.visit('https://www.htmlelements.com/demos/fileupload/shadow-dom/index.htm');
+        cy.get('.smart-browse-input', {includeShadowDom: true}).attachFile('header.png'); 
+        cy.get('.smart-item-name', {includeShadowDom: true}).should('contain', 'header.png'); 
        
-        
+      
+      
     })
 
-    it.skip('Drag and drop', () => {
-
-        cy.visit('http://www.dhtmlgoodies.com/scripts/drag-drop-custom/demo-drag-drop-3.html');
-        cy.get('#box1').should('be.visible');
-        cy.get('#box101').should('be.visible');
-        cy.get('#box1').drag('#box101', {force: true}); 
-    })
-
-    it('Scroll pge', () => {
-
-        cy.visit('https://www.countries-ofthe-world.com/flags-of-the-world.html');
-        cy.get(':nth-child(113) > :nth-child(1) > img').scrollIntoView({duration: 2000});
-        cy.get(':nth-child(113) > :nth-child(1) > img').should('be.visible');
-
-        cy.get(':nth-child(1) > tbody > :nth-child(2) > :nth-child(1) > img').scrollIntoView({duration: 2000});
-        cy.get(':nth-child(1) > tbody > :nth-child(2) > :nth-child(1) > img').should('be.visible');
-    })
+    
+    
 
 
 
