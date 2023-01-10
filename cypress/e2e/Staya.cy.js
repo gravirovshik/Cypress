@@ -9,20 +9,7 @@ describe('Staya Home Work', () => {
       cy.get("button[type='submit']>span[class='s-button__content']").click()
       
       cy.get(".profile-orders__title.profile-orders__title_desktop").should('contain', 'Мои заказы')
-
-     // cy.get("#messageHeader").should('contain', 'Успешно отправили пароль на e-mail')
-      //cy.get("button[id='exitMessageButton']>img[alt='exit icon']").should("be.visible");
   
-    })
-  
-  
-
-  
-  
-  
-    
-  
-  
-  
+    })  
   
   })
